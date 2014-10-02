@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">	
+	<link rel="stylesheet" href="css/awtree.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <script src="bower_components/jquery/dist/jquery.js" type="text/javascript" charset="utf-8"></script>
+	<script src="bower_components/jquery-ui/ui/widget.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/awtree.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function () {
+			$.getJSON('data/flare.json', function (node) {
+				var tree = $('#test').awtree({				
+					nodeClicked: function (event, obj) {
+						console.log(obj.data('name') + ' node clicked!');
+					},
+					nodeChecked: function (event, obj) {
+						console.log(obj.data('name') + ' node checked!');
+					},
+					childNodeChecked: function (event, obj) {
+						console.log(obj.data('name') + ' child node checked!');
+					},
+					loaded: function (event, obj) {																
+						console.log("Tree Loaded!");
+					},
+					lazyLoad: true, //if true, lazyLoad event will be triggered when showing children for elements with has-children attribute
+					checkbox: true,
+					expandAll: true,
+					data: node
+				});
+				tree.on('lazyLoad', function (event, obj) {					
+					//on lazyLoad, add new child node to obj
+					$(this).awtree('addNode', $(obj), [{"name": "clusterhall"}]);
+				});
+				tree.on('nodeClicked', function (event, obj) {
+					//on nodeClicked, if obj data name = clusterhall, remove and replace with new node
+					if ($(obj).data('name') == 'clusterhall') {
+						$(this).awtree('removeNode', $(obj), {"name": "banksy", "is-checked": true});						
+					}
+				});
+				$('#doselectnode').click(function () {
+					var selection = tree.awtree('selectNode', 'data-name', $('#selectnode').val());			
+					$(window).scrollTop(parseInt(selection.offset().top));
+				});
+				$('#expandall').click(function () {
+					tree.awtree('expandAll');	
+				});
+				$('#collaspeall').click(function () {
+					tree.awtree('collapseAll');	
+				});
+			});			
+        });            
+    </script>
+</head>
+<body>
+	<button id="expandall">Expand All</button>
+	<button id="collaspeall">Collapse All</button>
+	<input type="text" id="selectnode" value="Visualization"/><button id="doselectnode">Select Node</button>
+    
+	<div style="padding: 10px;">
+		<ul id="test"></ul>
+	</div>
+</body>
+</html>

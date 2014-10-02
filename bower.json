@@ -1,0 +1,27 @@
+{
+  "name": "awtree",
+  "version": "1.0.0-alpha",
+  "authors": [
+    "Anthony Woodard <anthony.woodard@gmail.com>"
+  ],
+  "description": "Create a dynamic tree from JSON data",
+  "main": "index.html",
+  "moduleType": [
+    "amd"
+  ],
+  "keywords": [
+    "jQuery",
+    "AMD"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/anthonywoodard/postal/awtree",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "bower_components"
+  ],
+  "dependencies": {
+    "jquery": "~1.11.x",
+    "jquery-ui": "~1.11.x"
+  }
+}
